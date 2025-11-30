@@ -5,7 +5,7 @@
 // @ts-nocheck - Test file with dynamic slot typing
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { h, ref, nextTick } from 'vue'
+import { h, ref, nextTick, markRaw } from 'vue'
 
 import Draggable from '../../src/runtime/components/Draggable.vue'
 
@@ -99,12 +99,13 @@ describe('Draggable Component', () => {
 
     it('should render with external component object as tag', () => {
       // Define a custom component similar to el-collapse
-      const CustomContainer = {
+      // Use markRaw to prevent Vue from making the component reactive
+      const CustomContainer = markRaw({
         name: 'CustomContainer',
         setup(_: unknown, { slots }: { slots: { default?: () => unknown } }) {
           return () => h('div', { 'class': 'custom-container', 'data-custom': 'true' }, slots.default?.())
         },
-      }
+      })
 
       const wrapper = mount(Draggable, {
         props: {
@@ -128,7 +129,7 @@ describe('Draggable Component', () => {
     })
 
     it('should pass componentData to external component', () => {
-      const CustomContainer = {
+      const CustomContainer = markRaw({
         name: 'CustomContainer',
         props: {
           activePanel: String,
@@ -141,7 +142,7 @@ describe('Draggable Component', () => {
             'data-custom-prop': props.customProp,
           }, slots.default?.())
         },
-      }
+      })
 
       const wrapper = mount(Draggable, {
         props: {
@@ -165,7 +166,7 @@ describe('Draggable Component', () => {
 
     it('should work with defineComponent-style external component', () => {
       // Simulate how element-plus or other UI libraries define components
-      const AccordionContainer = {
+      const AccordionContainer = markRaw({
         name: 'AccordionContainer',
         emits: ['change'],
         props: {
@@ -178,7 +179,7 @@ describe('Draggable Component', () => {
             role: 'tablist',
           }, slots.default?.())
         },
-      }
+      })
 
       const wrapper = mount(Draggable, {
         props: {
