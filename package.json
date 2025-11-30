@@ -1,5 +1,5 @@
 {
-  "name": "@nuxtjs/sortable",
+  "name": "nuxtjs-sortable",
   "version": "0.0.2",
   "description": "Nuxt module for Sortable.js",
   "repository": "https://github.com/tunchamroeun/vue.draggable.next.git",
