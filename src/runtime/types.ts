@@ -1,4 +1,8 @@
 import type { MoveEvent } from 'sortablejs'
+import type { Component, DefineComponent } from 'vue'
+
+// Tag type - supports HTML tag names, component names, or component objects
+export type TagType = string | Component | DefineComponent
 
 // Re-export types from the component
 export interface DraggableContext<T = unknown> {

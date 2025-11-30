@@ -97,6 +97,113 @@ describe('Draggable Component', () => {
       expect(wrapper.element.tagName).toBe('UL')
     })
 
+    it('should render with external component object as tag', () => {
+      // Define a custom component similar to el-collapse
+      const CustomContainer = {
+        name: 'CustomContainer',
+        setup(_: unknown, { slots }: { slots: { default?: () => unknown } }) {
+          return () => h('div', { 'class': 'custom-container', 'data-custom': 'true' }, slots.default?.())
+        },
+      }
+
+      const wrapper = mount(Draggable, {
+        props: {
+          list: [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }],
+          itemKey: 'id',
+          tag: CustomContainer,
+        },
+        slots: {
+          item: ({ element }: { element: { id: number, name: string } }) =>
+            h('div', { class: 'item' }, element.name),
+        },
+      })
+
+      // Should render the custom container component
+      expect(wrapper.find('.custom-container').exists()).toBe(true)
+      expect(wrapper.element.getAttribute('data-custom')).toBe('true')
+      // Items should be rendered inside
+      expect(wrapper.findAll('.item')).toHaveLength(2)
+      expect(wrapper.text()).toContain('Item 1')
+      expect(wrapper.text()).toContain('Item 2')
+    })
+
+    it('should pass componentData to external component', () => {
+      const CustomContainer = {
+        name: 'CustomContainer',
+        props: {
+          activePanel: String,
+          customProp: Number,
+        },
+        setup(props: { activePanel?: string, customProp?: number }, { slots }: { slots: { default?: () => unknown } }) {
+          return () => h('div', {
+            'class': 'custom-container',
+            'data-active': props.activePanel,
+            'data-custom-prop': props.customProp,
+          }, slots.default?.())
+        },
+      }
+
+      const wrapper = mount(Draggable, {
+        props: {
+          list: [{ id: 1, name: 'Item 1' }],
+          itemKey: 'id',
+          tag: CustomContainer,
+          componentData: {
+            activePanel: 'panel-1',
+            customProp: 42,
+          },
+        },
+        slots: {
+          item: ({ element }: { element: { name: string } }) =>
+            h('div', { class: 'item' }, element.name),
+        },
+      })
+
+      expect(wrapper.element.getAttribute('data-active')).toBe('panel-1')
+      expect(wrapper.element.getAttribute('data-custom-prop')).toBe('42')
+    })
+
+    it('should work with defineComponent-style external component', () => {
+      // Simulate how element-plus or other UI libraries define components
+      const AccordionContainer = {
+        name: 'AccordionContainer',
+        emits: ['change'],
+        props: {
+          accordion: { type: Boolean, default: false },
+          modelValue: { type: Array, default: () => [] },
+        },
+        setup(props: { accordion?: boolean }, { slots }: { slots: { default?: () => unknown } }) {
+          return () => h('div', {
+            class: ['accordion-wrapper', { 'is-accordion': props.accordion }],
+            role: 'tablist',
+          }, slots.default?.())
+        },
+      }
+
+      const wrapper = mount(Draggable, {
+        props: {
+          list: [
+            { name: '1', title: 'Section 1' },
+            { name: '2', title: 'Section 2' },
+          ],
+          itemKey: 'name',
+          tag: AccordionContainer,
+          componentData: {
+            accordion: true,
+          },
+        },
+        slots: {
+          item: ({ element }: { element: { name: string, title: string } }) =>
+            h('div', { class: 'accordion-item' }, element.title),
+        },
+      })
+
+      expect(wrapper.find('.accordion-wrapper').exists()).toBe(true)
+      expect(wrapper.classes()).toContain('is-accordion')
+      expect(wrapper.element.getAttribute('role')).toBe('tablist')
+      expect(wrapper.findAll('.accordion-item')).toHaveLength(2)
+    })
+
     it('should render header slot', () => {
       const wrapper = mount(Draggable, {
         props: {

@@ -34,6 +34,7 @@ import type {
   DraggedContext as DraggedContextBase,
   RelatedContext as RelatedContextBase,
   MoveEventContext as MoveEventContextBase,
+  TagType,
 } from '../types'
 
 // Component options using defineOptions (Vue 3.3+)
@@ -85,7 +86,7 @@ const props = withDefaults(defineProps<{
   modelValue?: T[] | null
   itemKey: string | ((item: T) => string | number)
   clone?: (original: T) => T
-  tag?: string
+  tag?: TagType
   move?: (evt: MoveEventContextBase<T>, originalEvent: Event) => boolean | number | undefined
   componentData?: Record<string, unknown> | null
 }>(), {

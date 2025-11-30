@@ -4,7 +4,8 @@ import {
   type RootInfo,
 } from './componentStructure'
 import { isHtmlTag, isTransition } from '../util/tags'
-import { resolveComponent, TransitionGroup, type Slots, type VNode } from 'vue'
+import { resolveComponent, TransitionGroup, type Slots, type VNode, type Component } from 'vue'
+import type { TagType } from '../types'
 
 export interface ComputeNodesParams<T = unknown> {
   $slots: Slots
@@ -14,7 +15,7 @@ export interface ComputeNodesParams<T = unknown> {
 
 export interface ComputeComponentStructureParams<T = unknown> {
   $slots: Slots
-  tag: string
+  tag: TagType
   realList: T[] | null
   getKey: (element: T) => string | number
 }
@@ -53,7 +54,17 @@ function computeNodes<T>({
   }
 }
 
-function getRootInformation(tag: string): RootInfo {
+function getRootInformation(tag: TagType): RootInfo {
+  // If tag is already a component object (not a string), use it directly
+  if (typeof tag !== 'string') {
+    return {
+      transition: false,
+      externalComponent: true,
+      tag: tag as Component,
+    } as RootInfo
+  }
+
+  // Handle string tags (HTML elements, transition-group, or component names)
   const transition = isTransition(tag)
   const externalComponent = !isHtmlTag(tag) && !transition
   return {

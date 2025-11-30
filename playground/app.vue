@@ -27,6 +27,32 @@
     </div>
 
     <div class="demo-section">
+      <h2>External Component Demo (Accordion)</h2>
+      <p class="description">
+        Using a custom component as the wrapper via :tag prop
+      </p>
+
+      <ClientOnly>
+        <Draggable
+          v-model="accordionItems"
+          :tag="AccordionContainer"
+          :component-data="{ class: 'accordion-wrapper' }"
+          item-key="name"
+          ghost-class="ghost"
+        >
+          <template #item="{ element }">
+            <AccordionItem
+              :title="element.title"
+              :name="element.name"
+            >
+              <div>{{ element.description }}</div>
+            </AccordionItem>
+          </template>
+        </Draggable>
+      </ClientOnly>
+    </div>
+
+    <div class="demo-section">
       <h2>Two Lists Demo</h2>
       <p class="description">
         Drag items between the two lists
@@ -107,16 +133,59 @@
 
     <div class="demo-section">
       <h2>Current State</h2>
-      <pre class="state-display">{{ JSON.stringify({ items, listA, listB, slotItems }, null, 2) }}</pre>
+      <pre class="state-display">{{ JSON.stringify({ items, listA, listB, slotItems, accordionItems }, null, 2) }}</pre>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { h } from 'vue'
+
 interface Item {
   id: number
   name: string
 }
+
+interface AccordionItem {
+  name: string
+  title: string
+  description: string
+}
+
+// Example: Custom external component passed via :tag prop
+// This simulates how you'd use el-collapse or similar components
+const AccordionContainer = defineComponent({
+  name: 'AccordionContainer',
+  setup(_, { slots }) {
+    return () => h('div', { class: 'accordion-container' }, slots.default?.())
+  },
+})
+
+// Example: Accordion item component (like el-collapse-item)
+const AccordionItem = defineComponent({
+  name: 'AccordionItem',
+  props: {
+    title: { type: String, required: true },
+    name: { type: String, required: true },
+  },
+  setup(props, { slots }) {
+    const isOpen = ref(false)
+    return () => h('div', {
+      'class': ['accordion-item', { 'is-open': isOpen.value }],
+      'data-draggable': true,
+    }, [
+      h('div', {
+        class: 'accordion-header',
+        onClick: () => { isOpen.value = !isOpen.value },
+      }, [
+        h('span', { class: 'accordion-arrow' }, isOpen.value ? '▼' : '▶'),
+        h('span', { class: 'accordion-title' }, props.title),
+        h('span', { class: 'drag-indicator' }, '⋮⋮'),
+      ]),
+      isOpen.value ? h('div', { class: 'accordion-content' }, slots.default?.()) : null,
+    ])
+  },
+})
 
 const items = ref<Item[]>([
   { id: 1, name: 'Item 1' },
@@ -124,6 +193,13 @@ const items = ref<Item[]>([
   { id: 3, name: 'Item 3' },
   { id: 4, name: 'Item 4' },
   { id: 5, name: 'Item 5' },
+])
+
+const accordionItems = ref<AccordionItem[]>([
+  { name: '1', title: 'Section 1: Getting Started', description: 'Welcome to the accordion demo. Drag items to reorder them!' },
+  { name: '2', title: 'Section 2: Configuration', description: 'Configure your settings here. This panel can be reordered.' },
+  { name: '3', title: 'Section 3: Advanced Options', description: 'Advanced options for power users. Drag to change priority.' },
+  { name: '4', title: 'Section 4: Help & Support', description: 'Need help? Check out our documentation and support resources.' },
 ])
 
 const listA = ref<Item[]>([
@@ -316,6 +392,98 @@ h3 {
 @media (max-width: 600px) {
   .two-lists {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Accordion styles - for external component demo */
+.accordion-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.accordion-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+}
+
+.accordion-item {
+  background: linear-gradient(135deg, #2d3a4d 0%, #1f2a38 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.accordion-item:hover {
+  border-color: rgba(0, 217, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.accordion-item.is-open {
+  border-color: rgba(0, 217, 255, 0.3);
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s ease;
+}
+
+.accordion-header:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.accordion-arrow {
+  color: #00d9ff;
+  font-size: 0.75rem;
+  width: 16px;
+  transition: transform 0.2s ease;
+}
+
+.accordion-title {
+  flex: 1;
+  font-weight: 500;
+  color: #e4e4e4;
+}
+
+.drag-indicator {
+  color: #666;
+  cursor: grab;
+  font-size: 1rem;
+  letter-spacing: 2px;
+}
+
+.drag-indicator:active {
+  cursor: grabbing;
+}
+
+.accordion-content {
+  padding: 0 16px 14px 44px;
+  color: #aaa;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
