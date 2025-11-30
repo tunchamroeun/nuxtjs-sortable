@@ -1,6 +1,6 @@
 {
   "name": "nuxtjs-sortable",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Nuxt module for Sortable.js",
   "repository": "https://github.com/tunchamroeun/nuxtjs-sortable.git",
   "license": "MIT",
