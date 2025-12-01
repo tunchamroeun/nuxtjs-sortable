@@ -5,18 +5,21 @@
   "repository": "https://github.com/tunchamroeun/nuxtjs-sortable.git",
   "license": "MIT",
   "type": "module",
+  "main": "./dist/module.mjs",
   "exports": {
     ".": {
       "types": "./dist/types.d.mts",
       "import": "./dist/module.mjs"
+    },
+    "./runtime/types": {
+      "types": "./dist/runtime/types.d.ts",
+      "import": "./dist/runtime/types.js"
     }
   },
-  "main": "./dist/module.mjs",
   "typesVersions": {
     "*": {
-      ".": [
-        "./dist/types.d.mts"
-      ]
+      ".": ["./dist/types.d.mts"],
+      "runtime/types": ["./dist/runtime/types.d.ts"]
     }
   },
   "files": [
