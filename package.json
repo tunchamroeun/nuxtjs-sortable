@@ -1,6 +1,6 @@
 {
   "name": "nuxtjs-sortable",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Nuxt module for Sortable.js",
   "repository": "https://github.com/tunchamroeun/nuxtjs-sortable.git",
   "license": "MIT",
@@ -18,8 +18,12 @@
   },
   "typesVersions": {
     "*": {
-      ".": ["./dist/types.d.mts"],
-      "runtime/types": ["./dist/runtime/types.d.ts"]
+      ".": [
+        "./dist/types.d.mts"
+      ],
+      "runtime/types": [
+        "./dist/runtime/types.d.ts"
+      ]
     }
   },
   "files": [
