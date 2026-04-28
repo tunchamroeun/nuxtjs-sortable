@@ -147,15 +147,6 @@ const realList = computed<T[] | null>(() => {
   return props.list ? props.list : props.modelValue
 })
 
-function buildComponentStructure(): ComponentStructure {
-  return computeComponentStructure({
-    $slots: slots,
-    tag: props.tag,
-    realList: realList.value,
-    getKey: getKey.value,
-  })
-}
-
 const getKey = computed<(element: T) => string | number>(() => {
   const { itemKey } = props
   if (typeof itemKey === 'function') {
@@ -398,15 +389,6 @@ onMounted(() => {
   }
 
   const $el = instance.proxy!.$el as HTMLElement
-  if (!componentStructure) {
-    try {
-      componentStructure = buildComponentStructure()
-    }
-    catch {
-      // RenderContent handles reporting details for structure build failures.
-      return
-    }
-  }
   componentStructure.updated()
 
   const callBackBuilder: CallBackBuilder = {
@@ -452,7 +434,12 @@ onBeforeUnmount(() => {
 const RenderContent = (): VNode => {
   try {
     error.value = false
-    componentStructure = buildComponentStructure()
+    componentStructure = computeComponentStructure({
+      $slots: slots,
+      tag: props.tag,
+      realList: realList.value,
+      getKey: getKey.value,
+    })
     const attributes = getComponentAttributes({
       $attrs: attrs,
       componentData: props.componentData ?? undefined,
