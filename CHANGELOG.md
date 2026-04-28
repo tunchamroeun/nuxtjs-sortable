@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.11
+
+[compare changes](https://github.com/tunchamroeun/nuxtjs-sortable/compare/v0.0.11...v0.0.11)
+
+### 🏡 Chore
+
+- **release:** V0.0.10 ([e5e9fb9](https://github.com/tunchamroeun/nuxtjs-sortable/commit/e5e9fb9))
+
+### ❤️ Contributors
+
+- Tun Cham Roeun <chamroeuntun25@outlook.com>
+
 ## v0.0.10
 
 [compare changes](https://github.com/tunchamroeun/nuxtjs-sortable/compare/v0.0.11...v0.0.10)
