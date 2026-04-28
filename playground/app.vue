@@ -30,24 +30,22 @@
         Using a custom component as the wrapper via :tag prop
       </p>
 
-      <ClientOnly>
-        <Draggable
-          v-model="accordionItems"
-          :tag="AccordionContainer"
-          :component-data="{ class: 'accordion-wrapper' }"
-          item-key="name"
-          ghost-class="ghost"
-        >
-          <template #item="{ element }">
-            <AccordionItem
-              :title="element.title"
-              :name="element.name"
-            >
-              <div>{{ element.description }}</div>
-            </AccordionItem>
-          </template>
-        </Draggable>
-      </ClientOnly>
+      <Draggable
+        v-model="accordionItems"
+        :tag="AccordionContainer"
+        :component-data="{ class: 'accordion-wrapper' }"
+        item-key="name"
+        ghost-class="ghost"
+      >
+        <template #item="{ element }">
+          <AccordionItem
+            :title="element.title"
+            :name="element.name"
+          >
+            <div>{{ element.description }}</div>
+          </AccordionItem>
+        </template>
+      </Draggable>
     </div>
 
     <div class="demo-section">
@@ -57,41 +55,39 @@
       </p>
 
       <div class="two-lists">
-        <ClientOnly>
-          <div class="list-container">
-            <h3>List A</h3>
-            <Draggable
-              v-model="listA"
-              item-key="id"
-              group="shared"
-              class="draggable-list"
-              ghost-class="ghost"
-            >
-              <template #item="{ element }">
-                <div class="draggable-item list-a-item">
-                  {{ element.name }}
-                </div>
-              </template>
-            </Draggable>
-          </div>
+        <div class="list-container">
+          <h3>List A</h3>
+          <Draggable
+            v-model="listA"
+            item-key="id"
+            group="shared"
+            class="draggable-list"
+            ghost-class="ghost"
+          >
+            <template #item="{ element }">
+              <div class="draggable-item list-a-item">
+                {{ element.name }}
+              </div>
+            </template>
+          </Draggable>
+        </div>
 
-          <div class="list-container">
-            <h3>List B</h3>
-            <Draggable
-              v-model="listB"
-              item-key="id"
-              group="shared"
-              class="draggable-list"
-              ghost-class="ghost"
-            >
-              <template #item="{ element }">
-                <div class="draggable-item list-b-item">
-                  {{ element.name }}
-                </div>
-              </template>
-            </Draggable>
-          </div>
-        </ClientOnly>
+        <div class="list-container">
+          <h3>List B</h3>
+          <Draggable
+            v-model="listB"
+            item-key="id"
+            group="shared"
+            class="draggable-list"
+            ghost-class="ghost"
+          >
+            <template #item="{ element }">
+              <div class="draggable-item list-b-item">
+                {{ element.name }}
+              </div>
+            </template>
+          </Draggable>
+        </div>
       </div>
     </div>
 
@@ -101,32 +97,30 @@
         Draggable with header and footer slots
       </p>
 
-      <ClientOnly>
-        <Draggable
-          v-model="slotItems"
-          item-key="id"
-          class="draggable-list"
-          ghost-class="ghost"
-          @change="onSlotChange"
-        >
-          <template #header>
-            <div class="slot-header">
-              📋 Draggable Items (Header Slot)
-            </div>
-          </template>
-          <template #item="{ element }">
-            <div class="draggable-item slot-item">
-              <span class="drag-handle">◈</span>
-              {{ element.name }}
-            </div>
-          </template>
-          <template #footer>
-            <div class="slot-footer">
-              ✨ End of list (Footer Slot)
-            </div>
-          </template>
-        </Draggable>
-      </ClientOnly>
+      <Draggable
+        v-model="slotItems"
+        item-key="id"
+        class="draggable-list"
+        ghost-class="ghost"
+        @change="onSlotChange"
+      >
+        <template #header>
+          <div class="slot-header">
+            📋 Draggable Items (Header Slot)
+          </div>
+        </template>
+        <template #item="{ element }">
+          <div class="draggable-item slot-item">
+            <span class="drag-handle">◈</span>
+            {{ element.name }}
+          </div>
+        </template>
+        <template #footer>
+          <div class="slot-footer">
+            ✨ End of list (Footer Slot)
+          </div>
+        </template>
+      </Draggable>
     </div>
 
     <div class="demo-section">
