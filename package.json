@@ -9,11 +9,13 @@
   "exports": {
     ".": {
       "types": "./dist/types.d.mts",
-      "import": "./dist/module.mjs"
+      "import": "./dist/module.mjs",
+      "default": "./dist/module.mjs"
     },
     "./runtime/types": {
       "types": "./dist/runtime/types.d.ts",
-      "import": "./dist/runtime/types.js"
+      "import": "./dist/runtime/types.js",
+      "default": "./dist/runtime/types.js"
     }
   },
   "typesVersions": {
