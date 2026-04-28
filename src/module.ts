@@ -20,7 +20,7 @@ declare module '@nuxt/schema' {
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: '@typed-draggable/nuxt',
+    name: 'nuxtjs-sortable',
     configKey: 'draggable',
     compatibility: {
       nuxt: '>=3.0.0',
@@ -37,13 +37,13 @@ export default defineNuxtModule<ModuleOptions>({
     addComponent({
       name: `${options.prefix}Draggable`,
       filePath: resolver.resolve('./runtime/components/Draggable.vue'),
-      mode: 'client',
+      mode: 'all',
     })
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     addPlugin({
       src: resolver.resolve('./runtime/plugin'),
-      mode: 'client',
+      mode: 'all',
     })
   },
 })

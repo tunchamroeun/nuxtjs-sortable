@@ -8,22 +8,20 @@
         Drag and drop items to reorder them
       </p>
 
-      <ClientOnly>
-        <Draggable
-          v-model="items"
-          item-key="id"
-          class="draggable-list"
-          ghost-class="ghost"
-          @change="onChange"
-        >
-          <template #item="{ element }">
-            <div class="draggable-item">
-              <span class="drag-handle">⠿</span>
-              {{ element.name }}
-            </div>
-          </template>
-        </Draggable>
-      </ClientOnly>
+      <Draggable
+        v-model="items"
+        item-key="id"
+        class="draggable-list"
+        ghost-class="ghost"
+        @change="onChange"
+      >
+        <template #item="{ element }">
+          <div class="draggable-item">
+            <span class="drag-handle">⠿</span>
+            {{ element.name }}
+          </div>
+        </template>
+      </Draggable>
     </div>
 
     <div class="demo-section">
