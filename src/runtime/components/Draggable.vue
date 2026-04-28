@@ -409,7 +409,7 @@ onMounted(() => {
       ? $el
       : $el.parentElement!
   _sortable = new Sortable(targetDomElement, sortableOptions)
-  ;(targetDomElement as DraggableHTMLElement).__draggable_component__
+  ; (targetDomElement as DraggableHTMLElement).__draggable_component__
     = {
       realList: realList.value,
       getUnderlyingVm: methods.getUnderlyingVm,

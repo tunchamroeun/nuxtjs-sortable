@@ -5,5 +5,5 @@ export default defineNuxtConfig({
     ['../src/module', { prefix: '' } satisfies ModuleOptions],
   ],
   devtools: { enabled: true },
-  compatibilityDate: '2024-11-01',
+  compatibilityDate: 'latest',
 })

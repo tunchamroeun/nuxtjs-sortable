@@ -1,26 +1,11 @@
 // @ts-check
-import { createConfigForNuxt } from '@nuxt/eslint-config/flat'
+import withNuxt from './.nuxt/eslint.config.mjs'
 
-// Run `npx @eslint/config-inspector` to inspect the resolved config interactively
-export default createConfigForNuxt({
-  features: {
-    // Rules for module authors
-    tooling: true,
-    // Rules for formatting
-    stylistic: true,
-  },
-  dirs: {
-    src: [
-      './playground',
-    ],
-  },
-})
-  .append(
-    {
-      // Ignore multi-word component names for Nuxt pages
-      files: ['**/pages/**/*.vue', '**/test/fixtures/**/pages/**/*.vue'],
-      rules: {
-        'vue/multi-word-component-names': 'off',
-      },
+export default withNuxt(
+  // Your custom configs here
+  {
+    rules: {
+      'vue/multi-word-component-names': 'off',
     },
-  )
+  },
+)

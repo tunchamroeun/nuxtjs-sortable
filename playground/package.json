@@ -1,16 +1,14 @@
 {
   "private": true,
-  "name": "typed-draggable-playground",
+  "name": "my-module-playground",
   "type": "module",
   "scripts": {
-    "dev": "nuxi dev",
-    "build": "nuxi build",
-    "generate": "nuxi generate",
-    "typecheck": "nuxt typecheck",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate"
   },
   "dependencies": {
-    "nuxt": "^4.2.1"
+    "my-module": "latest",
+    "nuxt": "^4.4.2"
   }
 }
